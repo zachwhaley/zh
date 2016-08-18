@@ -29,7 +29,7 @@ void runcmd(char *cmd)
     // Split command into an array of arguments
     char **args = split(cmd);
     if (!args[0])
-        return;
+        goto done;
 
     // Fork and exec command
     pid_t pid = fork();
@@ -37,7 +37,7 @@ void runcmd(char *cmd)
         execvp(args[0], args);
     else
         waitpid(pid, NULL, 0);
-
+done:
     free(args);
 }
 
