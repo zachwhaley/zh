@@ -31,15 +31,10 @@ void runcmd(char *cmd)
 
     // Fork and exec command
     pid_t pid = fork();
-    if (pid == 0) {
+    if (pid == 0)
         execvp(args[0], args);
-    }
-    else {
-        int wstatus;
-        do {
-            waitpid(pid, &wstatus, WUNTRACED);
-        } while (!WIFEXITED(wstatus));
-    }
+    else
+        waitpid(pid, NULL, 0);
 
     free(args);
 }
