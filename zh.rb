@@ -5,9 +5,8 @@ loop do
   print 'ζ '
   # Get command
   cmd = $stdin.gets.strip
-  if !cmd.empty?
-    # Fork and exec command
-    pid = fork { exec cmd }
-    Process.wait pid
-  end
+  next if cmd.empty?
+  # Fork and exec command
+  pid = fork { exec cmd }
+  Process.wait pid
 end
