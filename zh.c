@@ -28,6 +28,8 @@ void runcmd(char *cmd)
 {
     // Split command into an array of arguments
     char **args = split(cmd);
+    if (!args[0])
+        return;
 
     // Fork and exec command
     pid_t pid = fork();
