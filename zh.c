@@ -6,17 +6,17 @@
 
 char** split(char *cmd)
 {
-    int ndx = 0, size = 10;
-    char **args = malloc(size * sizeof(char*));
-
+    int ndx = 0, len = 10;
+    char **args = malloc(len * sizeof(char*));
     const char *tok = " \n";
+
     char *arg = strtok(cmd, tok);
     while (arg) {
         args[ndx] = arg;
         ndx++;
-        if (ndx >= size) {
-            size += size;
-            args = realloc(args, size * sizeof(char*));
+        if (ndx >= len) {
+            len += len;
+            args = realloc(args, len * sizeof(char*));
         }
         arg = strtok(NULL, tok);
     }
