@@ -5,11 +5,15 @@ require 'shellwords'
 BUILTINS = {
   'cd' => lambda { |dir| Dir.chdir(dir) },
   'exit' => lambda { exit 0 },
+  'set' => lambda { |args|
+    key, value = args.split('=')
+    ENV[key] = value
+  },
 }
 
 loop do
   # Print prompt
-  print 'ζ '
+  print Dir.pwd + ' ζ '
   # Get command
   cmd = $stdin.gets.strip
   next if cmd.empty?
@@ -22,6 +26,6 @@ loop do
   else
     # Fork and exec command
     pid = fork { exec(prog, *args)  }
-    Process.wait pid
+    Process.wait(pid)
   end
 end
