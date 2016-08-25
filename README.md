@@ -14,5 +14,7 @@ Each shell should have four stages of development:
 3. Environment variables
   - Display current directory in prompt
   - Change your `PATH` using a builtin `set` command
-4. Pipelines
+4. Configuration
+  - Read simple commands from a config file
+5. Pipelines
   - Implement piping, e.g. `ls | grep zh`
