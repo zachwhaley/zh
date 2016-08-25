@@ -25,9 +25,24 @@ void runexit(char **args)
     exit(0);
 }
 
+void runset(char **args)
+{
+    int len = 0;
+    while (args[len])
+        len++;
+    if (len > 1) {
+        char *name = args[1];
+        char *value = strchr(args[1], '=');
+        *value = '\0';
+        value++;
+        setenv(name, value, 1);
+    }
+}
+
 struct builtin builtins[] = {
     { "cd", runcd },
     { "exit", runexit },
+    { "set", runset },
 };
 void runcmd(char **args)
 {
@@ -71,9 +86,10 @@ char** split(char *cmd)
 int main(int argc, const char *argv[])
 {
     char cmd[BUFSIZ];
+    char cwd[FILENAME_MAX];
     while (1) {
         // Print prompt
-        printf("ζ ");
+        printf("%s ζ ", getcwd(cwd, FILENAME_MAX));
 
         // Get command
         fgets(cmd, BUFSIZ, stdin);
