@@ -18,6 +18,12 @@ var BUILTINS = map[string]func([]string){
 	"exit": func(args []string) {
 		os.Exit(0)
 	},
+	"set": func(args []string) {
+		if len(args) > 1 {
+			kvp := strings.Split(args[1], "=")
+			os.Setenv(kvp[0], kvp[1])
+		}
+	},
 }
 
 func GetCmd() string {
@@ -38,7 +44,7 @@ func RunCmd(args []string) {
 	// List stdin, stdout, and stderr file descriptors
 	files := []uintptr{uintptr(syscall.Stdin), uintptr(syscall.Stdout), uintptr(syscall.Stderr)}
 	// Set process attributes
-	proc := syscall.ProcAttr{Files: files}
+	proc := syscall.ProcAttr{Env: os.Environ(), Files: files}
 	// Find the full path of the program
 	prog, _ := exec.LookPath(args[0])
 	// Fork and exec command
@@ -49,7 +55,8 @@ func RunCmd(args []string) {
 func main() {
 	for {
 		// Print prompt
-		fmt.Printf("ζ ")
+		cwd, _ := os.Getwd()
+		fmt.Printf("%s ζ ", cwd)
 
 		// Get command
 		cmd := GetCmd()
